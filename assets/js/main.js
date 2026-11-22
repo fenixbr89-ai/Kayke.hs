@@ -11,7 +11,9 @@
     contabilidade: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 11h2M12 11h2M16 11h0M8 15h2M12 15h2M8 18h2M12 18h4"/></svg>',
     imoveis: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/></svg>',
     fitness: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8v8M18 8v8M3 10v4M21 10v4M6 12h12"/></svg>',
+    comercio: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1 12H6L5 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>',
     servicos: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.2L3 17.8V21h3.2l6.3-6.3a4 4 0 0 0 5.2-5.4l-2.6 2.6-2.5-.6-.6-2.5 2.6-2.6z"/></svg>',
+    plus: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>',
     check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>',
   };
 
@@ -83,7 +85,12 @@
           <h3>${s.nome}</h3>
           <div class="box-foot"><span>${plural(n, "vídeo", "vídeos")}</span><span class="go">Ver ${I.arrow}</span></div>
         </a>`;
-    }).join("");
+    }).join("") + `
+        <a class="box reveal" href="${waLink("Olá! Não achei meu segmento no catálogo e quero um vídeo motion personalizado.")}" target="_blank" rel="noopener">
+          <span class="icon-box">${I.plus}</span>
+          <h3>Outro segmento</h3>
+          <div class="box-foot"><span>Sob medida</span><span class="go">Pedir ${I.arrow}</span></div>
+        </a>`;
     observe(segGrid);
   }
 
@@ -98,8 +105,8 @@
   function setupTabs({ tabsEl, groups, items, key, all, onRender }) {
     const byId = Object.fromEntries(groups.map((g) => [g.id, g]));
     tabsEl.innerHTML =
-      `<button class="tab" data-id="todos">${all} <span class="count">${items.length}</span></button>` +
-      groups.map((g) => `<button class="tab" data-id="${g.id}">${g.nome} <span class="count">${items.filter((i) => i[key] === g.id).length}</span></button>`).join("");
+      `<button class="tab" data-id="todos">${all}</button>` +
+      groups.map((g) => `<button class="tab" data-id="${g.id}">${g.nome}</button>`).join("");
 
     const current = () => { const h = location.hash.slice(1); return byId[h] ? h : "todos"; };
     function render(id) {
@@ -146,12 +153,13 @@
 
   const placeholderHTML = (v) => {
     const [a, b] = v.frase || [v.titulo, ""];
-    return `<div class="placeholder"><span class="ph-small">${a}</span><span class="ph-big">${b}</span><span class="ph-bar"></span></div>`;
+    return `<div class="placeholder${v.fundo ? " has-bg" : ""}">${v.fundo ? `<img class="ph-bg" src="${v.fundo}" alt="" loading="lazy">` : ""}<span class="ph-small">${a}</span><span class="ph-big">${b}</span><span class="ph-bar"></span></div>`;
   };
 
   setupTabs({
     tabsEl: document.getElementById("tabs"), groups: SEGMENTOS, items: VIDEOS, key: "segmento", all: "Todos",
     onRender(id, list, g) {
+      list = [...list].sort((x, y) => !!y.video - !!x.video);
       titleEl.textContent = g ? g.nome : "Todos os vídeos";
       countEl.textContent = plural(list.length, "modelo", "modelos") + " · toque para assistir";
       if (!list.length) {

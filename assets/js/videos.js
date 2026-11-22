@@ -11,6 +11,7 @@
    2. Preencha "imagem" e "link" no item da lista SITES
 
    Campo vazio ("") = aparece um card de exemplo no lugar.
+   "fundo" (opcional) = foto de fundo do card de exemplo.
    ========================================================== */
 
 const WHATSAPP = "5562996821664";
@@ -24,6 +25,7 @@ const SEGMENTOS = [
   { id: "imoveis",       nome: "Corretor de Imóveis" },
   { id: "fitness",       nome: "Fitness" },
   { id: "servicos",      nome: "Serviços Gerais" },
+  { id: "comercio",      nome: "Comércio e Varejo" },
 ];
 
 /* Vídeos. Em "frase", o trecho entre <b></b> fica verde no card de exemplo */
@@ -40,11 +42,16 @@ const VIDEOS = [
   { segmento: "imoveis", titulo: "Lançamento de imóvel", descricao: "Apresentação de imóvel com fotos e preço", video: "", capa: "", frase: ["Seu novo", "<b>endereço.</b>"] },
   { segmento: "imoveis", titulo: "Corretor pessoal", descricao: "Posicionamento do corretor nas redes", video: "", capa: "", frase: ["O corretor", "que <b>resolve.</b>"] },
 
-  { segmento: "fitness", titulo: "Academia e studio", descricao: "Motion energético para matrículas", video: "", capa: "", frase: ["Comece", "<b>hoje.</b>"] },
-  { segmento: "fitness", titulo: "Personal trainer", descricao: "Apresentação e chamada para avaliação", video: "", capa: "", frase: ["Resultado", "<b>de verdade.</b>"] },
+  { segmento: "fitness", titulo: "Academia e studio", fundo: "assets/img/fitness.jpg", descricao: "Motion energético para matrículas", video: "", capa: "", frase: ["Comece", "<b>hoje.</b>"] },
+  { segmento: "fitness", titulo: "Personal trainer", fundo: "assets/img/fitness.jpg", descricao: "Apresentação e chamada para avaliação", video: "", capa: "", frase: ["Resultado", "<b>de verdade.</b>"] },
 
-  { segmento: "servicos", titulo: "Prestador de serviço", descricao: "Para clínicas, salões, oficinas e mais", video: "", capa: "", frase: ["Seu serviço", "<b>escolhido.</b>"] },
-  { segmento: "servicos", titulo: "Promoção relâmpago", descricao: "Oferta com prazo e urgência", video: "", capa: "", frase: ["Só até", "<b>domingo.</b>"] },
+  { segmento: "servicos", titulo: "Pintura residencial e predial", descricao: "Juliano Pinturas: casas, apartamentos e fachadas", video: "assets/videos/servicos-pintura.mp4", capa: "assets/videos/servicos-pintura.jpg" },
+  { segmento: "servicos", titulo: "Limpeza pós-obra", descricao: "Juliano Pinturas: vidros, pisos e acabamento", video: "assets/videos/servicos-limpeza-pos-obra.mp4", capa: "assets/videos/servicos-limpeza-pos-obra.jpg" },
+  { segmento: "servicos", titulo: "Vários serviços", descricao: "Juliano Pinturas: marido de aluguel, jardinagem e mais", video: "assets/videos/servicos-multiservicos.mp4", capa: "assets/videos/servicos-multiservicos.jpg" },
+  { segmento: "servicos", titulo: "Elétrica residencial", descricao: "Juliano Pinturas: instalação e manutenção elétrica", video: "assets/videos/servicos-eletrica.mp4", capa: "assets/videos/servicos-eletrica.jpg" },
+
+  { segmento: "comercio", titulo: "Ofertas de supermercado", descricao: "Mariana Supermercado: ofertas do dia com preço", video: "assets/videos/comercio-supermercado.mp4", capa: "assets/videos/comercio-supermercado.jpg" },
+  { segmento: "comercio", titulo: "Loja de atacado e varejo", descricao: "Benatti Frios e Embalagens: horário e localização", video: "assets/videos/comercio-frios-embalagens.mp4", capa: "assets/videos/comercio-frios-embalagens.jpg" },
 ];
 
 /* Tipos de site (abas da página de sites) */
@@ -59,7 +66,7 @@ const SITES = [
   { tipo: "institucional", titulo: "Escritório de advocacia", descricao: "Site completo com áreas de atuação e contato", url: "advocacia.com.br", imagem: "", link: "" },
   { tipo: "landing",       titulo: "Contabilidade digital",   descricao: "Página de captação para abertura de empresa", url: "contabil.com.br", imagem: "", link: "" },
   { tipo: "landing",       titulo: "Lançamento imobiliário",  descricao: "Landing page com galeria e simulação", url: "residencial.com.br", imagem: "", link: "" },
-  { tipo: "institucional", titulo: "Academia e studio",       descricao: "Planos, horários e matrícula pelo WhatsApp", url: "studiofit.com.br", imagem: "", link: "" },
+  { tipo: "institucional", titulo: "Academia e studio", fundo: "assets/img/fitness.jpg",       descricao: "Planos, horários e matrícula pelo WhatsApp", url: "studiofit.com.br", imagem: "", link: "" },
   { tipo: "portfolio",     titulo: "Profissional liberal",    descricao: "Portfólio pessoal com trabalhos e depoimentos", url: "seunome.com.br", imagem: "", link: "" },
   { tipo: "institucional", titulo: "Prestador de serviços",   descricao: "Serviços, área de atendimento e orçamento", url: "servicos.com.br", imagem: "", link: "" },
 ];
