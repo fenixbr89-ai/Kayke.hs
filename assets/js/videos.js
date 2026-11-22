@@ -1,58 +1,65 @@
 /* ==========================================================
-   CATÁLOGO DE VÍDEOS — edite SÓ este arquivo para adicionar vídeos
+   DADOS DO SITE — edite SÓ este arquivo para adicionar vídeos e sites
    ----------------------------------------------------------
-   1. Coloque o arquivo .mp4 na pasta  assets/videos/
-      (de preferência vertical 9:16, até ~15 MB)
-   2. (opcional) Coloque uma capa .jpg na mesma pasta
-   3. Adicione um item na lista VIDEOS lá embaixo, ex.:
+   VÍDEOS
+   1. Coloque o .mp4 (vertical 9:16, até ~15 MB) em  assets/videos/
+   2. (opcional) uma capa .jpg na mesma pasta
+   3. Preencha "video" (e "capa") no item da lista VIDEOS
 
-      {
-        segmento: "advocacia",
-        titulo: "Apresentação do escritório",
-        descricao: "Motion 9:16 para Reels e anúncios",
-        video: "assets/videos/advocacia-01.mp4",
-        capa: "assets/videos/advocacia-01.jpg"
-      },
+   SITES
+   1. Coloque um print do site (16:10, .jpg) em  assets/sites/
+   2. Preencha "imagem" e "link" no item da lista SITES
 
-   Se "video" ficar vazio (""), aparece um card de exemplo animado.
+   Campo vazio ("") = aparece um card de exemplo no lugar.
    ========================================================== */
 
 const WHATSAPP = "5562996821664";
 const INSTAGRAM = "kayke.hs";
 
-/* Abas do catálogo (ordem = ordem que aparece no site) */
+/* Abas do catálogo de vídeos (ordem = ordem no site) */
 const SEGMENTOS = [
-  { id: "escritorio",    nome: "Escritório",          emoji: "🏢" },
-  { id: "advocacia",     nome: "Advocacia",           emoji: "⚖️" },
-  { id: "contabilidade", nome: "Contabilidade",       emoji: "📊" },
-  { id: "imoveis",       nome: "Corretor de Imóveis", emoji: "🏡" },
-  { id: "fitness",       nome: "Fitness",             emoji: "💪" },
-  { id: "servicos",      nome: "Serviços Gerais",     emoji: "🛠️" },
+  { id: "escritorio",    nome: "Escritório" },
+  { id: "advocacia",     nome: "Advocacia" },
+  { id: "contabilidade", nome: "Contabilidade" },
+  { id: "imoveis",       nome: "Corretor de Imóveis" },
+  { id: "fitness",       nome: "Fitness" },
+  { id: "servicos",      nome: "Serviços Gerais" },
 ];
 
-/* Vídeos — troque os exemplos pelos seus */
+/* Vídeos. Em "frase", o trecho entre <b></b> fica verde no card de exemplo */
 const VIDEOS = [
-  // ESCRITÓRIO
-  { segmento: "escritorio", titulo: "Apresentação da empresa", descricao: "Institucional curto para Reels e site", video: "", capa: "", frase: ["Sua empresa", "em <i>movimento.</i>"] },
-  { segmento: "escritorio", titulo: "Anúncio de serviço", descricao: "Motion de oferta para tráfego pago", video: "", capa: "", frase: ["Aqui a gente", "faz <i>isso.</i>"] },
+  { segmento: "escritorio", titulo: "Apresentação da empresa", descricao: "Institucional curto para Reels e site", video: "", capa: "", frase: ["Sua empresa", "em <b>movimento.</b>"] },
+  { segmento: "escritorio", titulo: "Anúncio de serviço", descricao: "Motion de oferta para tráfego pago", video: "", capa: "", frase: ["Aqui a gente", "faz <b>isso.</b>"] },
 
-  // ADVOCACIA
-  { segmento: "advocacia", titulo: "Escritório de advocacia", descricao: "Autoridade e confiança em 15 segundos", video: "", capa: "", frase: ["Seu direito", "em <i>boas mãos.</i>"] },
-  { segmento: "advocacia", titulo: "Área de atuação", descricao: "Explica um serviço jurídico de forma simples", video: "", capa: "", frase: ["Direito", "<i>trabalhista.</i>"] },
+  { segmento: "advocacia", titulo: "Escritório de advocacia", descricao: "Autoridade e confiança em 15 segundos", video: "", capa: "", frase: ["Seu direito", "em <b>boas mãos.</b>"] },
+  { segmento: "advocacia", titulo: "Área de atuação", descricao: "Explica um serviço jurídico de forma simples", video: "", capa: "", frase: ["Direito", "<b>trabalhista.</b>"] },
 
-  // CONTABILIDADE
-  { segmento: "contabilidade", titulo: "Abertura de empresa", descricao: "Motion para captar novos clientes", video: "", capa: "", frase: ["Abra sua", "empresa <i>hoje.</i>"] },
-  { segmento: "contabilidade", titulo: "Imposto de renda", descricao: "Campanha sazonal com chamada no WhatsApp", video: "", capa: "", frase: ["Declare sem", "<i>dor de cabeça.</i>"] },
+  { segmento: "contabilidade", titulo: "Abertura de empresa", descricao: "Motion para captar novos clientes", video: "", capa: "", frase: ["Abra sua", "empresa <b>hoje.</b>"] },
+  { segmento: "contabilidade", titulo: "Imposto de renda", descricao: "Campanha sazonal com chamada no WhatsApp", video: "", capa: "", frase: ["Declare sem", "<b>dor de cabeça.</b>"] },
 
-  // CORRETOR DE IMÓVEIS
-  { segmento: "imoveis", titulo: "Lançamento de imóvel", descricao: "Apresentação de imóvel com fotos e preço", video: "", capa: "", frase: ["Seu novo", "<i>endereço.</i>"] },
-  { segmento: "imoveis", titulo: "Corretor pessoal", descricao: "Posicionamento do corretor nas redes", video: "", capa: "", frase: ["O corretor", "que <i>resolve.</i>"] },
+  { segmento: "imoveis", titulo: "Lançamento de imóvel", descricao: "Apresentação de imóvel com fotos e preço", video: "", capa: "", frase: ["Seu novo", "<b>endereço.</b>"] },
+  { segmento: "imoveis", titulo: "Corretor pessoal", descricao: "Posicionamento do corretor nas redes", video: "", capa: "", frase: ["O corretor", "que <b>resolve.</b>"] },
 
-  // FITNESS
-  { segmento: "fitness", titulo: "Academia / Studio", descricao: "Motion energético para matrículas", video: "", capa: "", frase: ["Comece", "<i>hoje.</i>"] },
-  { segmento: "fitness", titulo: "Personal trainer", descricao: "Apresentação + chamada para avaliação", video: "", capa: "", frase: ["Resultado", "<i>de verdade.</i>"] },
+  { segmento: "fitness", titulo: "Academia e studio", descricao: "Motion energético para matrículas", video: "", capa: "", frase: ["Comece", "<b>hoje.</b>"] },
+  { segmento: "fitness", titulo: "Personal trainer", descricao: "Apresentação e chamada para avaliação", video: "", capa: "", frase: ["Resultado", "<b>de verdade.</b>"] },
 
-  // SERVIÇOS GERAIS
-  { segmento: "servicos", titulo: "Prestador de serviço", descricao: "Para clínicas, salões, oficinas e mais", video: "", capa: "", frase: ["Seu serviço", "<i>escolhido.</i>"] },
-  { segmento: "servicos", titulo: "Promoção relâmpago", descricao: "Oferta com contagem e urgência", video: "", capa: "", frase: ["Só até", "<i>domingo.</i>"] },
+  { segmento: "servicos", titulo: "Prestador de serviço", descricao: "Para clínicas, salões, oficinas e mais", video: "", capa: "", frase: ["Seu serviço", "<b>escolhido.</b>"] },
+  { segmento: "servicos", titulo: "Promoção relâmpago", descricao: "Oferta com prazo e urgência", video: "", capa: "", frase: ["Só até", "<b>domingo.</b>"] },
+];
+
+/* Tipos de site (abas da página de sites) */
+const TIPOS_SITE = [
+  { id: "landing",       nome: "Landing page" },
+  { id: "institucional", nome: "Site institucional" },
+  { id: "portfolio",     nome: "Portfólio" },
+];
+
+/* Sites. "link" = endereço do site no ar (abre em nova aba) */
+const SITES = [
+  { tipo: "institucional", titulo: "Escritório de advocacia", descricao: "Site completo com áreas de atuação e contato", url: "advocacia.com.br", imagem: "", link: "" },
+  { tipo: "landing",       titulo: "Contabilidade digital",   descricao: "Página de captação para abertura de empresa", url: "contabil.com.br", imagem: "", link: "" },
+  { tipo: "landing",       titulo: "Lançamento imobiliário",  descricao: "Landing page com galeria e simulação", url: "residencial.com.br", imagem: "", link: "" },
+  { tipo: "institucional", titulo: "Academia e studio",       descricao: "Planos, horários e matrícula pelo WhatsApp", url: "studiofit.com.br", imagem: "", link: "" },
+  { tipo: "portfolio",     titulo: "Profissional liberal",    descricao: "Portfólio pessoal com trabalhos e depoimentos", url: "seunome.com.br", imagem: "", link: "" },
+  { tipo: "institucional", titulo: "Prestador de serviços",   descricao: "Serviços, área de atendimento e orçamento", url: "servicos.com.br", imagem: "", link: "" },
 ];
