@@ -35,24 +35,8 @@
     });
   });
 
-  /* ---------- abertura com contador ---------- */
-  const loader = $("#loader");
-  const count = $("#count");
-  const bar = $("#bar");
-  const start = performance.now();
-  const DUR = reduce ? 1 : 1500;
-  (function tick(now) {
-    const t = Math.min(1, (now - start) / DUR);
-    const e = 1 - Math.pow(1 - t, 3);
-    count.textContent = Math.round(e * 100);
-    bar.style.width = e * 100 + "%";
-    if (t < 1) return requestAnimationFrame(tick);
-    setTimeout(() => {
-      loader.classList.add("done");
-      document.body.classList.remove("loading");
-      document.documentElement.classList.add("ready");
-    }, 150);
-  })(start);
+  /* entrada */
+  requestAnimationFrame(() => document.documentElement.classList.add("ready"));
 
   /* ---------- faixas em movimento (aceleram com a rolagem) ---------- */
   let scrollVel = 0;
@@ -61,7 +45,8 @@
   function marquee(el, speed) {
     const html = el.innerHTML;
     el.innerHTML = html + html;
-    const m = { el, speed, x: 0, w: 0 };
+    const m = { el, speed, x: 0, w: 0, on: true };
+    new IntersectionObserver(([e]) => (m.on = e.isIntersecting), { rootMargin: "100px" }).observe(el.parentElement);
     const measure = () => (m.w = el.scrollWidth / 2);
     measure();
     addEventListener("resize", measure);
@@ -74,10 +59,11 @@
   const shuffle = (a) => a.map((v) => [Math.random(), v]).sort((p, q) => p[0] - q[0]).map((p) => p[1]);
   const rowA = $("#rowA");
   const rowB = $("#rowB");
-  rowA.innerHTML = shuffle(VIDEOS).map((v) =>
-    `<div class="phone"><video src="${v.previa}" poster="${v.capa}" muted loop playsinline autoplay preload="metadata"></video></div>`).join("");
+  rowA.innerHTML = shuffle(VIDEOS).map((v) => finePointer
+    ? `<div class="phone"><video src="${v.previa}" poster="${v.capa}" muted loop playsinline autoplay preload="metadata"></video></div>`
+    : `<div class="phone"><img src="${v.capa}" alt="" decoding="async"></div>`).join("");
   rowB.innerHTML = shuffle(VIDEOS).map((v) =>
-    `<div class="phone"><img src="${v.capa}" alt="" loading="lazy"></div>`).join("");
+    `<div class="phone"><img src="${v.capa}" alt="" decoding="async"></div>`).join("");
   marquee(rowA, -0.45);
   marquee(rowB, 0.35);
   marquee($("#words"), -0.6);
@@ -93,6 +79,7 @@
     lastY = y;
     if (!reduce) {
       marquees.forEach((m) => {
+        if (!m.on) return;
         const dir = Math.sign(m.speed);
         m.x += m.speed + dir * Math.abs(scrollVel) * 0.25;
         if (m.x <= -m.w) m.x += m.w;
@@ -108,10 +95,15 @@
   const st = $("#statement");
   st.innerHTML = st.textContent.trim().split(/\s+/).map((w) => `<span class="wd">${w}</span>`).join(" ");
   const words = $$(".wd", st);
+  let stOn = false, lastLit = -1;
+  new IntersectionObserver(([e]) => (stOn = e.isIntersecting)).observe(st);
   function statement() {
+    if (!stOn) return;
     const r = st.getBoundingClientRect();
     const p = (innerHeight * 0.85 - r.top) / (r.height + innerHeight * 0.35);
     const lit = Math.floor(Math.max(0, Math.min(1, p)) * words.length);
+    if (lit === lastLit) return;
+    lastLit = lit;
     words.forEach((w, k) => w.classList.toggle("lit", k < lit));
   }
   requestAnimationFrame(loop);
