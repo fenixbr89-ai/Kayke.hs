@@ -28,9 +28,6 @@ const V = (arquivo) => ({
 const VIDEOS = [
   { segmento: "servicos", cliente: "Juliano Pinturas", servico: "Pintura residencial e predial", ...V("servicos-pintura") },
   { segmento: "servicos", cliente: "WJ Empilhadeira", servico: "Manutenção de empilhadeiras", ...V("servicos-empilhadeira") },
-  { segmento: "servicos", cliente: "Juliano Pinturas", servico: "Limpeza pós-obra", ...V("servicos-limpeza-pos-obra") },
-  { segmento: "servicos", cliente: "Juliano Pinturas", servico: "Vários serviços", ...V("servicos-multiservicos") },
-  { segmento: "servicos", cliente: "Juliano Pinturas", servico: "Elétrica residencial", ...V("servicos-eletrica") },
 
   { segmento: "comercio", cliente: "Mariana Supermercado", servico: "Ofertas do dia", ...V("comercio-supermercado") },
   { segmento: "comercio", cliente: "Benatti Frios e Embalagens", servico: "Apresentação da loja", ...V("comercio-frios-embalagens") },

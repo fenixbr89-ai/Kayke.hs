@@ -59,14 +59,13 @@
   const shuffle = (a) => a.map((v) => [Math.random(), v]).sort((p, q) => p[0] - q[0]).map((p) => p[1]);
   const rowA = $("#rowA");
   const rowB = $("#rowB");
-  rowA.innerHTML = shuffle(VIDEOS).map((v) => finePointer
+  rowA.innerHTML = shuffle([...VIDEOS, ...VIDEOS]).map((v) => finePointer
     ? `<div class="phone"><video src="${v.previa}" poster="${v.capa}" muted loop playsinline autoplay preload="metadata"></video></div>`
     : `<div class="phone"><img src="${v.capa}" alt="" decoding="async"></div>`).join("");
-  rowB.innerHTML = shuffle(VIDEOS).map((v) =>
+  rowB.innerHTML = shuffle([...VIDEOS, ...VIDEOS]).map((v) =>
     `<div class="phone"><img src="${v.capa}" alt="" decoding="async"></div>`).join("");
   marquee(rowA, -0.45);
   marquee(rowB, 0.35);
-  marquee($("#words"), -0.6);
 
   /* pausa os vídeos da faixa quando ela sai da tela */
   new IntersectionObserver(([e]) => {
@@ -118,16 +117,7 @@
   const segmentos = SEGMENTOS.filter((s) => VIDEOS.some((v) => v.segmento === s.id));
   const tabsEl = $("#tabs");
   const grid = $("#grid");
-  $("#total").textContent = `(${pad(VIDEOS.length)})`;
-  tabsEl.innerHTML = '<span class="tab-pill" id="pill"></span>' + segmentos.map((s) =>
-    `<button class="tab" data-id="${s.id}">${s.nome}<sup>${VIDEOS.filter((v) => v.segmento === s.id).length}</sup></button>`
-  ).join("");
-  const pill = $("#pill");
-
-  function movePill(tab) {
-    pill.style.width = tab.offsetWidth + "px";
-    pill.style.transform = `translateX(${tab.offsetLeft}px)`;
-  }
+  tabsEl.innerHTML = segmentos.map((s) => `<button class="tab" data-id="${s.id}">${s.nome}</button>`).join("");
 
   function cards(id) {
     const list = VIDEOS.filter((v) => v.segmento === id);
@@ -162,7 +152,6 @@
     current = id;
     const tab = $(`.tab[data-id="${id}"]`, tabsEl);
     $$(".tab", tabsEl).forEach((t) => t.classList.toggle("active", t === tab));
-    movePill(tab);
     if (!animate) return cards(id);
     grid.classList.add("out");
     setTimeout(() => { grid.classList.remove("out"); cards(id); }, 320);
@@ -173,8 +162,6 @@
   });
   const fromHash = () => { const h = location.hash.slice(1); return segmentos.some((s) => s.id === h) ? h : segmentos[0].id; };
   select(fromHash(), false);
-  addEventListener("resize", () => movePill($(".tab.active", tabsEl)));
-  document.fonts && document.fonts.ready.then(() => movePill($(".tab.active", tabsEl)));
 
   /* ---------- cursor ---------- */
   if (finePointer) {
