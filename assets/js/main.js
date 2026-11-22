@@ -1,63 +1,235 @@
 (function () {
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const finePointer = matchMedia("(hover: hover) and (pointer: fine)").matches;
   const waLink = (msg) => "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(msg);
-  const PLAY = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+  const pad = (n) => String(n).padStart(2, "0");
 
-  document.querySelectorAll("[data-wa]").forEach((a) => {
+  /* links de WhatsApp */
+  $$("[data-wa]").forEach((a) => {
     a.href = waLink(a.dataset.wa);
     a.target = "_blank";
     a.rel = "noopener";
   });
-  document.getElementById("year").textContent = new Date().getFullYear();
+  $("#year").textContent = new Date().getFullYear();
 
-  const tabsEl = document.getElementById("tabs");
-  const grid = document.getElementById("grid");
-  const segmentos = SEGMENTOS.filter((s) => VIDEOS.some((v) => v.segmento === s.id));
+  /* ---------- título letra por letra ---------- */
+  let i = 0;
+  $$(".hero h1 .line").forEach((line) => {
+    line.innerHTML = [...line.textContent].map((c) =>
+      c === " " ? " " : `<span class="ch" style="--i:${i++}">${c}</span>`
+    ).join("");
+  });
 
-  tabsEl.innerHTML = segmentos.map((s) => `<button class="tab" data-id="${s.id}">${s.nome}</button>`).join("");
+  /* ---------- títulos palavra por palavra ---------- */
+  $$(".split").forEach((el) => {
+    let k = 0;
+    el.childNodes.forEach((node) => {
+      if (node.nodeType !== 3) return;
+      const frag = document.createElement("span");
+      frag.innerHTML = node.textContent.split(/(\s+)/).map((w) =>
+        w.trim() ? `<span class="w"><span style="--i:${k++}">${w}</span></span>` : w
+      ).join("");
+      node.replaceWith(...frag.childNodes);
+    });
+  });
 
-  function render(id) {
-    tabsEl.querySelectorAll(".tab").forEach((t) => t.classList.toggle("active", t.dataset.id === id));
-    const list = VIDEOS.filter((v) => v.segmento === id);
-    grid.innerHTML = list.map((v) => `
-      <button class="card" data-i="${VIDEOS.indexOf(v)}">
-        <div class="media">
-          ${v.capa ? `<img src="${v.capa}" alt="${v.cliente}" loading="lazy">` : `<video src="${v.video}#t=0.1" muted playsinline preload="metadata"></video>`}
-          <span class="play">${PLAY}</span>
-        </div>
-        <div class="info"><strong>${v.cliente}</strong><span>${v.servico}</span></div>
-      </button>`).join("");
-    grid.querySelectorAll(".card").forEach((c) => c.addEventListener("click", () => open(VIDEOS[c.dataset.i])));
+  /* ---------- abertura com contador ---------- */
+  const loader = $("#loader");
+  const count = $("#count");
+  const bar = $("#bar");
+  const start = performance.now();
+  const DUR = reduce ? 1 : 1500;
+  (function tick(now) {
+    const t = Math.min(1, (now - start) / DUR);
+    const e = 1 - Math.pow(1 - t, 3);
+    count.textContent = Math.round(e * 100);
+    bar.style.width = e * 100 + "%";
+    if (t < 1) return requestAnimationFrame(tick);
+    setTimeout(() => {
+      loader.classList.add("done");
+      document.body.classList.remove("loading");
+      document.documentElement.classList.add("ready");
+    }, 150);
+  })(start);
+
+  /* ---------- faixas em movimento (aceleram com a rolagem) ---------- */
+  let scrollVel = 0;
+  let lastY = scrollY;
+  const marquees = [];
+  function marquee(el, speed) {
+    const html = el.innerHTML;
+    el.innerHTML = html + html;
+    const m = { el, speed, x: 0, w: 0 };
+    const measure = () => (m.w = el.scrollWidth / 2);
+    measure();
+    addEventListener("resize", measure);
+    el.addEventListener("load", measure, true);
+    el.addEventListener("loadedmetadata", measure, true);
+    marquees.push(m);
   }
 
-  const current = () => {
-    const h = location.hash.slice(1);
-    return segmentos.some((s) => s.id === h) ? h : segmentos[0].id;
-  };
+  /* faixa de vídeos */
+  const shuffle = (a) => a.map((v) => [Math.random(), v]).sort((p, q) => p[0] - q[0]).map((p) => p[1]);
+  const rowA = $("#rowA");
+  const rowB = $("#rowB");
+  rowA.innerHTML = shuffle(VIDEOS).map((v) =>
+    `<div class="phone"><video src="${v.previa}" poster="${v.capa}" muted loop playsinline autoplay preload="metadata"></video></div>`).join("");
+  rowB.innerHTML = shuffle(VIDEOS).map((v) =>
+    `<div class="phone"><img src="${v.capa}" alt="" loading="lazy"></div>`).join("");
+  marquee(rowA, -0.45);
+  marquee(rowB, 0.35);
+  marquee($("#words"), -0.6);
+
+  /* pausa os vídeos da faixa quando ela sai da tela */
+  new IntersectionObserver(([e]) => {
+    $$("video", rowA).forEach((v) => (e.isIntersecting ? v.play().catch(() => {}) : v.pause()));
+  }).observe($(".reel"));
+
+  function loop() {
+    const y = scrollY;
+    scrollVel += ((y - lastY) - scrollVel) * 0.12;
+    lastY = y;
+    if (!reduce) {
+      marquees.forEach((m) => {
+        const dir = Math.sign(m.speed);
+        m.x += m.speed + dir * Math.abs(scrollVel) * 0.25;
+        if (m.x <= -m.w) m.x += m.w;
+        if (m.x > 0) m.x -= m.w;
+        m.el.style.transform = `translate3d(${m.x}px,0,0)`;
+      });
+    }
+    statement();
+    requestAnimationFrame(loop);
+  }
+
+  /* ---------- frase que acende com a rolagem ---------- */
+  const st = $("#statement");
+  st.innerHTML = st.textContent.trim().split(/\s+/).map((w) => `<span class="wd">${w}</span>`).join(" ");
+  const words = $$(".wd", st);
+  function statement() {
+    const r = st.getBoundingClientRect();
+    const p = (innerHeight * 0.85 - r.top) / (r.height + innerHeight * 0.35);
+    const lit = Math.floor(Math.max(0, Math.min(1, p)) * words.length);
+    words.forEach((w, k) => w.classList.toggle("lit", k < lit));
+  }
+  requestAnimationFrame(loop);
+
+  /* ---------- revelar ao rolar ---------- */
+  const io = new IntersectionObserver((es) => es.forEach((e) => {
+    if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+  }), { threshold: 0.15 });
+  $$(".split").forEach((el) => io.observe(el));
+
+  /* ---------- trabalhos ---------- */
+  const segmentos = SEGMENTOS.filter((s) => VIDEOS.some((v) => v.segmento === s.id));
+  const tabsEl = $("#tabs");
+  const grid = $("#grid");
+  $("#total").textContent = `(${pad(VIDEOS.length)})`;
+  tabsEl.innerHTML = '<span class="tab-pill" id="pill"></span>' + segmentos.map((s) =>
+    `<button class="tab" data-id="${s.id}">${s.nome}<sup>${VIDEOS.filter((v) => v.segmento === s.id).length}</sup></button>`
+  ).join("");
+  const pill = $("#pill");
+
+  function movePill(tab) {
+    pill.style.width = tab.offsetWidth + "px";
+    pill.style.transform = `translateX(${tab.offsetLeft}px)`;
+  }
+
+  function cards(id) {
+    const list = VIDEOS.filter((v) => v.segmento === id);
+    grid.innerHTML = list.map((v, k) => `
+      <button class="card" data-i="${VIDEOS.indexOf(v)}">
+        <div class="media" style="transition-delay:${(k % 4) * 90}ms">
+          <img src="${v.capa}" alt="${v.cliente}, ${v.servico}" loading="lazy">
+        </div>
+        <div class="meta"><div><strong>${v.cliente}</strong><span>${v.servico}</span></div><span class="n">${pad(k + 1)}</span></div>
+      </button>`).join("");
+    $$(".card", grid).forEach((c) => {
+      io.observe(c);
+      const v = VIDEOS[c.dataset.i];
+      c.addEventListener("click", () => openModal(v));
+      if (!finePointer || !v.previa) return;
+      let vid;
+      c.addEventListener("mouseenter", () => {
+        if (!vid) {
+          vid = document.createElement("video");
+          Object.assign(vid, { src: v.previa, muted: true, loop: true, playsInline: true });
+          $(".media", c).appendChild(vid);
+        }
+        vid.play().then(() => c.classList.add("playing")).catch(() => {});
+      });
+      c.addEventListener("mouseleave", () => { c.classList.remove("playing"); vid && vid.pause(); });
+    });
+  }
+
+  let current = null;
+  function select(id, animate) {
+    if (id === current) return;
+    current = id;
+    const tab = $(`.tab[data-id="${id}"]`, tabsEl);
+    $$(".tab", tabsEl).forEach((t) => t.classList.toggle("active", t === tab));
+    movePill(tab);
+    if (!animate) return cards(id);
+    grid.classList.add("out");
+    setTimeout(() => { grid.classList.remove("out"); cards(id); }, 320);
+  }
   tabsEl.addEventListener("click", (e) => {
     const t = e.target.closest(".tab");
-    if (!t) return;
-    history.replaceState(null, "", "#" + t.dataset.id);
-    render(t.dataset.id);
+    if (t) { history.replaceState(null, "", "#" + t.dataset.id); select(t.dataset.id, true); }
   });
-  window.addEventListener("hashchange", () => render(current()));
-  render(current());
+  const fromHash = () => { const h = location.hash.slice(1); return segmentos.some((s) => s.id === h) ? h : segmentos[0].id; };
+  select(fromHash(), false);
+  addEventListener("resize", () => movePill($(".tab.active", tabsEl)));
+  document.fonts && document.fonts.ready.then(() => movePill($(".tab.active", tabsEl)));
 
-  /* janela do vídeo */
-  const modal = document.getElementById("modal");
-  const player = document.getElementById("modal-player");
-  function open(v) {
-    player.innerHTML = `<video src="${v.video}" poster="${v.capa || ""}" controls autoplay playsinline></video>`;
-    document.getElementById("modal-cliente").textContent = v.cliente;
-    document.getElementById("modal-servico").textContent = v.servico;
-    document.getElementById("modal-cta").href = waLink(`Olá! Vi o vídeo da ${v.cliente} no seu portfólio e quero um vídeo assim.`);
+  /* ---------- cursor ---------- */
+  if (finePointer) {
+    const cur = $("#cursor");
+    let mx = innerWidth / 2, my = innerHeight / 2, cx = mx, cy = my;
+    addEventListener("mousemove", (e) => { mx = e.clientX; my = e.clientY; cur.classList.remove("hide"); });
+    document.addEventListener("mouseover", (e) => cur.classList.toggle("big", !!e.target.closest(".card")));
+    document.addEventListener("mouseleave", () => cur.classList.add("hide"));
+    document.addEventListener("mouseenter", () => cur.classList.remove("hide"));
+    (function follow() {
+      cx += (mx - cx) * 0.18; cy += (my - cy) * 0.18;
+      cur.style.transform = `translate3d(${cx}px,${cy}px,0)`;
+      requestAnimationFrame(follow);
+    })();
+
+    /* botões magnéticos */
+    $$(".magnet").forEach((m) => {
+      m.addEventListener("mousemove", (e) => {
+        const r = m.getBoundingClientRect();
+        const x = e.clientX - r.left - r.width / 2;
+        const y = e.clientY - r.top - r.height / 2;
+        m.style.transition = "transform .2s";
+        m.style.transform = `translate(${x * 0.3}px,${y * 0.3}px)`;
+      });
+      m.addEventListener("mouseleave", () => {
+        m.style.transition = "transform .8s cubic-bezier(.16,1,.3,1)";
+        m.style.transform = "";
+      });
+    });
+  }
+
+  /* ---------- vídeo aberto ---------- */
+  const modal = $("#modal");
+  const player = $("#modal-player");
+  function openModal(v) {
+    player.innerHTML = `<video src="${v.video}" poster="${v.capa}" controls autoplay playsinline></video>`;
+    $("#modal-cliente").textContent = v.cliente;
+    $("#modal-servico").textContent = v.servico;
+    $("#modal-cta").href = waLink(`Olá! Vi o vídeo da ${v.cliente} no seu portfólio e quero um vídeo assim.`);
     modal.classList.add("open");
     document.body.style.overflow = "hidden";
   }
-  function close() {
+  function closeModal() {
     modal.classList.remove("open");
-    player.innerHTML = "";
     document.body.style.overflow = "";
+    setTimeout(() => (player.innerHTML = ""), 600);
   }
-  modal.addEventListener("click", (e) => { if (e.target === modal || e.target.closest(".modal-close")) close(); });
-  document.addEventListener("keydown", (e) => e.key === "Escape" && close());
+  $(".modal-close").addEventListener("click", closeModal);
+  document.addEventListener("keydown", (e) => e.key === "Escape" && closeModal());
 })();

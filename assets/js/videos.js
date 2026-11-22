@@ -1,11 +1,9 @@
 /* ==========================================================
    PORTFÓLIO. Edite só este arquivo para adicionar vídeos.
 
-   1. Coloque o .mp4 (vertical 9:16) e uma capa .jpg em assets/videos/
-   2. Adicione um item na lista VIDEOS, por exemplo:
-
-      { segmento: "advocacia", cliente: "Nome do cliente", servico: "Descrição curta",
-        video: "assets/videos/advocacia-01.mp4", capa: "assets/videos/advocacia-01.jpg" },
+   1. Coloque em assets/videos/ o .mp4 (vertical 9:16) e uma capa .jpg
+   2. Coloque em assets/videos/previews/ um trecho curto sem som (opcional)
+   3. Adicione o vídeo na lista VIDEOS
 
    A aba de um segmento só aparece quando ele tem pelo menos um vídeo.
    ========================================================== */
@@ -15,21 +13,29 @@ const INSTAGRAM = "kayke.hs";
 
 /* Abas, na ordem em que aparecem */
 const SEGMENTOS = [
-  { id: "servicos",      nome: "Serviços Gerais" },
-  { id: "comercio",      nome: "Comércio e Varejo" },
-  { id: "escritorio",    nome: "Escritório" },
-  { id: "advocacia",     nome: "Advocacia" },
-  { id: "contabilidade", nome: "Contabilidade" },
-  { id: "imoveis",       nome: "Corretor de Imóveis" },
-  { id: "fitness",       nome: "Fitness" },
+  { id: "servicos",   nome: "Serviços Gerais" },
+  { id: "comercio",   nome: "Comércio e Varejo" },
+  { id: "aplicativos", nome: "Aplicativos" },
+  { id: "fitness",    nome: "Fitness" },
 ];
 
-const VIDEOS = [
-  { segmento: "servicos", cliente: "Juliano Pinturas", servico: "Pintura residencial e predial", video: "assets/videos/servicos-pintura.mp4", capa: "assets/videos/servicos-pintura.jpg" },
-  { segmento: "servicos", cliente: "Juliano Pinturas", servico: "Limpeza pós-obra", video: "assets/videos/servicos-limpeza-pos-obra.mp4", capa: "assets/videos/servicos-limpeza-pos-obra.jpg" },
-  { segmento: "servicos", cliente: "Juliano Pinturas", servico: "Vários serviços", video: "assets/videos/servicos-multiservicos.mp4", capa: "assets/videos/servicos-multiservicos.jpg" },
-  { segmento: "servicos", cliente: "Juliano Pinturas", servico: "Elétrica residencial", video: "assets/videos/servicos-eletrica.mp4", capa: "assets/videos/servicos-eletrica.jpg" },
+const V = (arquivo) => ({
+  video: `assets/videos/${arquivo}.mp4`,
+  capa: `assets/videos/${arquivo}.jpg`,
+  previa: `assets/videos/previews/${arquivo}.mp4`,
+});
 
-  { segmento: "comercio", cliente: "Mariana Supermercado", servico: "Ofertas do dia", video: "assets/videos/comercio-supermercado.mp4", capa: "assets/videos/comercio-supermercado.jpg" },
-  { segmento: "comercio", cliente: "Benatti Frios e Embalagens", servico: "Apresentação da loja", video: "assets/videos/comercio-frios-embalagens.mp4", capa: "assets/videos/comercio-frios-embalagens.jpg" },
+const VIDEOS = [
+  { segmento: "servicos", cliente: "Juliano Pinturas", servico: "Pintura residencial e predial", ...V("servicos-pintura") },
+  { segmento: "servicos", cliente: "WJ Empilhadeira", servico: "Manutenção de empilhadeiras", ...V("servicos-empilhadeira") },
+  { segmento: "servicos", cliente: "Juliano Pinturas", servico: "Limpeza pós-obra", ...V("servicos-limpeza-pos-obra") },
+  { segmento: "servicos", cliente: "Juliano Pinturas", servico: "Vários serviços", ...V("servicos-multiservicos") },
+  { segmento: "servicos", cliente: "Juliano Pinturas", servico: "Elétrica residencial", ...V("servicos-eletrica") },
+
+  { segmento: "comercio", cliente: "Mariana Supermercado", servico: "Ofertas do dia", ...V("comercio-supermercado") },
+  { segmento: "comercio", cliente: "Benatti Frios e Embalagens", servico: "Apresentação da loja", ...V("comercio-frios-embalagens") },
+
+  { segmento: "aplicativos", cliente: "TOUT", servico: "Lançamento de aplicativo", ...V("app-tout") },
+
+  { segmento: "fitness", cliente: "Junior Reis", servico: "Consultoria fitness", ...V("fitness-junior-reis") },
 ];
