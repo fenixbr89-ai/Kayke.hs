@@ -38,54 +38,7 @@
   /* entrada */
   requestAnimationFrame(() => document.documentElement.classList.add("ready"));
 
-  /* ---------- faixas em movimento (aceleram com a rolagem) ---------- */
-  let scrollVel = 0;
-  let lastY = scrollY;
-  const marquees = [];
-  function marquee(el, speed) {
-    const html = el.innerHTML;
-    el.innerHTML = html + html;
-    const m = { el, speed, x: 0, w: 0, on: true };
-    new IntersectionObserver(([e]) => (m.on = e.isIntersecting), { rootMargin: "100px" }).observe(el.parentElement);
-    const measure = () => (m.w = el.scrollWidth / 2);
-    measure();
-    addEventListener("resize", measure);
-    el.addEventListener("load", measure, true);
-    el.addEventListener("loadedmetadata", measure, true);
-    marquees.push(m);
-  }
-
-  /* faixa de vídeos */
-  const shuffle = (a) => a.map((v) => [Math.random(), v]).sort((p, q) => p[0] - q[0]).map((p) => p[1]);
-  const rowA = $("#rowA");
-  const rowB = $("#rowB");
-  rowA.innerHTML = shuffle([...VIDEOS, ...VIDEOS]).map((v) => finePointer
-    ? `<div class="phone"><video src="${v.previa}" poster="${v.capa}" muted loop playsinline autoplay preload="metadata"></video></div>`
-    : `<div class="phone"><img src="${v.capa}" alt="" decoding="async"></div>`).join("");
-  rowB.innerHTML = shuffle([...VIDEOS, ...VIDEOS]).map((v) =>
-    `<div class="phone"><img src="${v.capa}" alt="" decoding="async"></div>`).join("");
-  marquee(rowA, -0.45);
-  marquee(rowB, 0.35);
-
-  /* pausa os vídeos da faixa quando ela sai da tela */
-  new IntersectionObserver(([e]) => {
-    $$("video", rowA).forEach((v) => (e.isIntersecting ? v.play().catch(() => {}) : v.pause()));
-  }).observe($(".reel"));
-
   function loop() {
-    const y = scrollY;
-    scrollVel += ((y - lastY) - scrollVel) * 0.12;
-    lastY = y;
-    if (!reduce) {
-      marquees.forEach((m) => {
-        if (!m.on) return;
-        const dir = Math.sign(m.speed);
-        m.x += m.speed + dir * Math.abs(scrollVel) * 0.25;
-        if (m.x <= -m.w) m.x += m.w;
-        if (m.x > 0) m.x -= m.w;
-        m.el.style.transform = `translate3d(${m.x}px,0,0)`;
-      });
-    }
     statement();
     requestAnimationFrame(loop);
   }
