@@ -42,7 +42,6 @@ const VIDEOS = [
   { segmento: "imoveis", titulo: "Lançamento de imóvel", descricao: "Apresentação de imóvel com fotos e preço", video: "", capa: "", frase: ["Seu novo", "<b>endereço.</b>"] },
   { segmento: "imoveis", titulo: "Corretor pessoal", descricao: "Posicionamento do corretor nas redes", video: "", capa: "", frase: ["O corretor", "que <b>resolve.</b>"] },
 
-  { segmento: "fitness", titulo: "Academia e studio", fundo: "assets/img/fitness.jpg", descricao: "Motion energético para matrículas", video: "", capa: "", frase: ["Comece", "<b>hoje.</b>"] },
   { segmento: "fitness", titulo: "Personal trainer", fundo: "assets/img/fitness.jpg", descricao: "Apresentação e chamada para avaliação", video: "", capa: "", frase: ["Resultado", "<b>de verdade.</b>"] },
 
   { segmento: "servicos", titulo: "Pintura residencial e predial", descricao: "Juliano Pinturas: casas, apartamentos e fachadas", video: "assets/videos/servicos-pintura.mp4", capa: "assets/videos/servicos-pintura.jpg" },
@@ -66,7 +65,6 @@ const SITES = [
   { tipo: "institucional", titulo: "Escritório de advocacia", descricao: "Site completo com áreas de atuação e contato", url: "advocacia.com.br", imagem: "", link: "" },
   { tipo: "landing",       titulo: "Contabilidade digital",   descricao: "Página de captação para abertura de empresa", url: "contabil.com.br", imagem: "", link: "" },
   { tipo: "landing",       titulo: "Lançamento imobiliário",  descricao: "Landing page com galeria e simulação", url: "residencial.com.br", imagem: "", link: "" },
-  { tipo: "institucional", titulo: "Academia e studio", fundo: "assets/img/fitness.jpg",       descricao: "Planos, horários e matrícula pelo WhatsApp", url: "studiofit.com.br", imagem: "", link: "" },
   { tipo: "portfolio",     titulo: "Profissional liberal",    descricao: "Portfólio pessoal com trabalhos e depoimentos", url: "seunome.com.br", imagem: "", link: "" },
   { tipo: "institucional", titulo: "Prestador de serviços",   descricao: "Serviços, área de atendimento e orçamento", url: "servicos.com.br", imagem: "", link: "" },
 ];

@@ -102,13 +102,13 @@
   }
 
   /* -------- abas genéricas -------- */
-  function setupTabs({ tabsEl, groups, items, key, all, onRender }) {
+  function setupTabs({ tabsEl, groups, items, key, media, onRender }) {
     const byId = Object.fromEntries(groups.map((g) => [g.id, g]));
     tabsEl.innerHTML =
-      `<button class="tab" data-id="todos">${all}</button>` +
       groups.map((g) => `<button class="tab" data-id="${g.id}">${g.nome}</button>`).join("");
 
-    const current = () => { const h = location.hash.slice(1); return byId[h] ? h : "todos"; };
+    const first = (groups.find((g) => items.some((i) => i[key] === g.id && i[media])) || groups[0]).id;
+    const current = () => { const h = location.hash.slice(1); return byId[h] ? h : first; };
     function render(id) {
       tabsEl.querySelectorAll(".tab").forEach((t) => {
         const on = t.dataset.id === id;
@@ -116,11 +116,11 @@
         if (on && tabsEl.scrollWidth > tabsEl.clientWidth)
           tabsEl.scrollTo({ left: t.offsetLeft - (tabsEl.clientWidth - t.offsetWidth) / 2, behavior: "smooth" });
       });
-      onRender(id, id === "todos" ? items : items.filter((i) => i[key] === id), byId[id]);
+      onRender(id, items.filter((i) => i[key] === id), byId[id]);
     }
     tabsEl.addEventListener("click", (e) => {
       const t = e.target.closest(".tab"); if (!t) return;
-      history.replaceState(null, "", t.dataset.id === "todos" ? location.pathname : "#" + t.dataset.id);
+      history.replaceState(null, "", "#" + t.dataset.id);
       render(t.dataset.id);
     });
     window.addEventListener("hashchange", () => render(current()));
@@ -134,9 +134,9 @@
   const siteGrid = document.getElementById("site-grid");
   if (siteGrid) {
     setupTabs({
-      tabsEl: document.getElementById("tabs"), groups: TIPOS_SITE, items: SITES, key: "tipo", all: "Todos",
+      tabsEl: document.getElementById("tabs"), groups: TIPOS_SITE, items: SITES, key: "tipo", media: "imagem",
       onRender(id, list, g) {
-        titleEl.textContent = g ? g.nome : "Todos os sites";
+        titleEl.textContent = g.nome;
         countEl.textContent = plural(list.length, "modelo", "modelos");
         siteGrid.innerHTML = list.length ? list.map(siteCard).join("") :
           `<div class="empty">Novos modelos em breve.<br><a class="btn btn-green" href="${waLink("Olá! Quero um site para o meu negócio.")}" target="_blank" rel="noopener">Pedir o meu agora</a></div>`;
@@ -157,10 +157,10 @@
   };
 
   setupTabs({
-    tabsEl: document.getElementById("tabs"), groups: SEGMENTOS, items: VIDEOS, key: "segmento", all: "Todos",
+    tabsEl: document.getElementById("tabs"), groups: SEGMENTOS, items: VIDEOS, key: "segmento", media: "video",
     onRender(id, list, g) {
       list = [...list].sort((x, y) => !!y.video - !!x.video);
-      titleEl.textContent = g ? g.nome : "Todos os vídeos";
+      titleEl.textContent = g.nome;
       countEl.textContent = plural(list.length, "modelo", "modelos") + " · toque para assistir";
       if (!list.length) {
         grid.innerHTML = `<div class="empty">Novos vídeos desse segmento em breve.<br><a class="btn btn-green" href="${waLink("Olá! Quero um vídeo motion para o meu segmento.")}" target="_blank" rel="noopener">Pedir o meu agora</a></div>`;
