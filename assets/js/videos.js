@@ -15,6 +15,7 @@ const INSTAGRAM = "kayke.hs";
 const SEGMENTOS = [
   { id: "servicos",   nome: "Serviços Gerais" },
   { id: "comercio",   nome: "Comércio e Varejo" },
+  { id: "imobiliario", nome: "Imobiliário" },
   { id: "aplicativos", nome: "Aplicativos" },
   { id: "tecnologia", nome: "Tecnologia" },
   { id: "fitness",    nome: "Fitness" },
@@ -32,6 +33,9 @@ const VIDEOS = [
 
   { segmento: "comercio", cliente: "Mariana Supermercado", servico: "Ofertas do dia", ...V("comercio-supermercado") },
   { segmento: "comercio", cliente: "Benatti Frios e Embalagens", servico: "Apresentação da loja", ...V("comercio-frios-embalagens") },
+  { segmento: "comercio", cliente: "Drogarias Medclass", servico: "Pedidos pelo WhatsApp", ...V("comercio-medclass") },
+
+  { segmento: "imobiliario", cliente: "Allan Alves", servico: "Financiamento imobiliário", ...V("imobiliario-allan-alves") },
 
   { segmento: "aplicativos", cliente: "TOUT", servico: "Lançamento de aplicativo", ...V("app-tout") },
 
