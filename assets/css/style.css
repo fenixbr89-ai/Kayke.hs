@@ -42,7 +42,7 @@ img, video { display: block; max-width: 100%; }
 .ulink:hover::after { transform: scaleX(1); transform-origin: left; }
 
 /* ---------------- HERO ---------------- */
-.hero { padding-top: clamp(110px, 16vh, 170px); padding-bottom: clamp(64px, 12vh, 120px); position: relative; }
+.hero { padding-top: clamp(110px, calc(16 * var(--vh, 1vh)), 170px); padding-bottom: clamp(64px, calc(12 * var(--vh, 1vh)), 120px); position: relative; }
 .hero h1 {
   font-size: clamp(64px, 15.5vw, 260px); font-weight: 700; letter-spacing: -0.05em; line-height: .86;
   margin-left: -0.04em;
@@ -51,7 +51,7 @@ img, video { display: block; max-width: 100%; }
 .hero h1 .ch { display: inline-block; transform: translateY(110%); }
 .ready .hero h1 .ch { animation: up 1.1s var(--ease-out) both; animation-delay: calc(var(--i) * 35ms + 150ms); }
 .hero h1 .line:nth-child(2) { text-align: right; }
-.hero-foot { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; align-items: end; margin-top: clamp(28px, 5vh, 56px); font-size: clamp(15px, 1.2vw, 18px); }
+.hero-foot { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; align-items: end; margin-top: clamp(28px, calc(5 * var(--vh, 1vh)), 56px); font-size: clamp(15px, 1.2vw, 18px); }
 .hero-foot p { color: var(--gray); max-width: 340px; }
 .hero-foot p b { color: var(--white); font-weight: 500; }
 .hero-foot .mid { justify-self: center; }
@@ -66,8 +66,8 @@ img, video { display: block; max-width: 100%; }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
 
 /* ---------------- TRABALHOS (fundo branco) ---------------- */
-.works { background: var(--white); color: var(--black); padding: clamp(80px, 14vh, 160px) 0 clamp(80px, 12vh, 140px); position: relative; z-index: 1; border-radius: 28px 28px 0 0; margin-top: -1px; }
-.works-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; margin-bottom: clamp(36px, 6vh, 64px); }
+.works { background: var(--white); color: var(--black); padding: clamp(80px, calc(14 * var(--vh, 1vh)), 160px) 0 clamp(80px, calc(12 * var(--vh, 1vh)), 140px); position: relative; z-index: 1; border-radius: 28px 28px 0 0; margin-top: -1px; }
+.works-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; margin-bottom: clamp(36px, calc(6 * var(--vh, 1vh)), 64px); }
 .works-head h2 { font-size: clamp(52px, 10vw, 160px); font-weight: 700; letter-spacing: -0.06em; line-height: .85; }
 .works-head h2 sup { font-size: .22em; letter-spacing: 0; font-weight: 500; vertical-align: top; position: relative; top: .5em; margin-left: .2em; }
 .split .w { display: inline-block; overflow: hidden; vertical-align: top; padding-right: .08em; margin-right: -.08em; padding-bottom: .06em; }
@@ -103,17 +103,17 @@ img, video { display: block; max-width: 100%; }
 .grid.out .card { opacity: 0; transform: translateY(24px); transition: opacity .35s, transform .35s var(--ease); }
 
 /* ---------------- FRASE ---------------- */
-.statement { padding-block: clamp(100px, 18vh, 200px); }
+.statement { padding-block: clamp(100px, calc(18 * var(--vh, 1vh)), 200px); }
 .statement #statement { font-size: clamp(30px, 4.6vw, 76px); font-weight: 600; letter-spacing: -0.04em; line-height: 1.08; max-width: 15em; }
 .statement #statement .wd { color: #2c2c2c; transition: color .3s; }
 .statement #statement .wd.lit { color: var(--white); }
 .statement .note { margin-top: 40px; color: var(--gray); font-size: 17px; font-weight: 400; letter-spacing: 0; }
 
 /* ---------------- CONTATO ---------------- */
-.contact { padding-block: clamp(60px, 10vh, 120px) 0; }
+.contact { padding-block: clamp(60px, calc(10 * var(--vh, 1vh)), 120px) 0; }
 .contact-line { border-top: 1px solid var(--line-d); }
 .contact .big { font-size: clamp(56px, 12vw, 200px); font-weight: 700; letter-spacing: -0.065em; line-height: .86; }
-.contact-row { display: flex; justify-content: space-between; align-items: center; gap: 40px; flex-wrap: wrap; margin-top: clamp(40px, 7vh, 80px); }
+.contact-row { display: flex; justify-content: space-between; align-items: center; gap: 40px; flex-wrap: wrap; margin-top: clamp(40px, calc(7 * var(--vh, 1vh)), 80px); }
 .contact-row p { color: var(--gray); max-width: 360px; font-size: 17px; }
 
 footer { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; padding: 60px 0 28px; font-size: 14px; color: var(--gray); }
