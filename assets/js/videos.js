@@ -16,6 +16,7 @@ const SEGMENTOS = [
   { id: "servicos",   nome: "Serviços Gerais" },
   { id: "comercio",   nome: "Comércio e Varejo" },
   { id: "aplicativos", nome: "Aplicativos" },
+  { id: "tecnologia", nome: "Tecnologia" },
   { id: "fitness",    nome: "Fitness" },
 ];
 
@@ -33,6 +34,8 @@ const VIDEOS = [
   { segmento: "comercio", cliente: "Benatti Frios e Embalagens", servico: "Apresentação da loja", ...V("comercio-frios-embalagens") },
 
   { segmento: "aplicativos", cliente: "TOUT", servico: "Lançamento de aplicativo", ...V("app-tout") },
+
+  { segmento: "tecnologia", cliente: "Kronic Host", servico: "Hospedagem VPS no Brasil", ...V("tecnologia-kronic-host") },
 
   { segmento: "fitness", cliente: "Junior Reis", servico: "Consultoria fitness", ...V("fitness-junior-reis") },
 ];
