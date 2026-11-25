@@ -6,19 +6,6 @@
   const waLink = (msg) => "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(msg);
   const pad = (n) => String(n).padStart(2, "0");
 
-  /* Altura da tela medida uma vez. No celular a barra do navegador some e
-     volta durante a rolagem; se os espaçamentos seguissem essa altura, a
-     página mudaria de tamanho e pularia. Só recalcula quando a largura muda
-     (girar o celular). */
-  const root = document.documentElement;
-  let vhWidth = innerWidth;
-  root.style.setProperty("--vh", innerHeight / 100 + "px");
-  addEventListener("resize", () => {
-    if (innerWidth === vhWidth) return;
-    vhWidth = innerWidth;
-    root.style.setProperty("--vh", innerHeight / 100 + "px");
-  });
-
   /* links de WhatsApp */
   $$("[data-wa]").forEach((a) => {
     a.href = waLink(a.dataset.wa);
@@ -26,14 +13,6 @@
     a.rel = "noopener";
   });
   $("#year").textContent = new Date().getFullYear();
-
-  /* ---------- título letra por letra ---------- */
-  let i = 0;
-  $$(".hero h1 .line").forEach((line) => {
-    line.innerHTML = [...line.textContent].map((c) =>
-      c === " " ? " " : `<span class="ch" style="--i:${i++}">${c}</span>`
-    ).join("");
-  });
 
   /* ---------- títulos palavra por palavra ---------- */
   $$(".split").forEach((el) => {
