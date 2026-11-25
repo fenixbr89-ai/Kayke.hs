@@ -11,13 +11,13 @@
 const WHATSAPP = "5562996821664";
 const INSTAGRAM = "kayke.hs";
 
-/* Abas, na ordem em que aparecem */
+/* Abas, na ordem em que aparecem. A primeira é a que abre por padrão. */
 const SEGMENTOS = [
+  { id: "aplicativos", nome: "Aplicativos" },
+  { id: "tecnologia", nome: "Tecnologia" },
   { id: "servicos",   nome: "Serviços Gerais" },
   { id: "comercio",   nome: "Comércio e Varejo" },
   { id: "imobiliario", nome: "Imobiliário" },
-  { id: "aplicativos", nome: "Aplicativos" },
-  { id: "tecnologia", nome: "Tecnologia" },
   { id: "fitness",    nome: "Fitness" },
 ];
 
