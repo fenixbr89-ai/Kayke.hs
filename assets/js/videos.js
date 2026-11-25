@@ -16,6 +16,7 @@ const SEGMENTOS = [
   { id: "aplicativos", nome: "Aplicativos" },
   { id: "tecnologia", nome: "Tecnologia" },
   { id: "educacao",   nome: "Educação" },
+  { id: "agencias",   nome: "Agências" },
   { id: "servicos",   nome: "Serviços Gerais" },
   { id: "comercio",   nome: "Comércio e Varejo" },
   { id: "imobiliario", nome: "Imobiliário" },
@@ -41,6 +42,8 @@ const VIDEOS = [
   { segmento: "tecnologia", cliente: "Kronic Host", servico: "Hospedagem VPS no Brasil", ...V("tecnologia-kronic-host") },
 
   { segmento: "educacao", cliente: "Wayfluency", servico: "Curso de inglês online", ...V("educacao-wayfluency") },
+
+  { segmento: "agencias", cliente: "RYVO", servico: "Estúdio criativo", ...V("agencias-ryvo") },
 
   { segmento: "fitness", cliente: "Junior Reis", servico: "Consultoria fitness", ...V("fitness-junior-reis") },
 ];
