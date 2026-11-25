@@ -15,6 +15,7 @@ const INSTAGRAM = "kayke.hs";
 const SEGMENTOS = [
   { id: "aplicativos", nome: "Aplicativos" },
   { id: "tecnologia", nome: "Tecnologia" },
+  { id: "educacao",   nome: "Educação" },
   { id: "servicos",   nome: "Serviços Gerais" },
   { id: "comercio",   nome: "Comércio e Varejo" },
   { id: "imobiliario", nome: "Imobiliário" },
@@ -31,8 +32,6 @@ const VIDEOS = [
   { segmento: "servicos", cliente: "Juliano Pinturas", servico: "Pintura residencial e predial", ...V("servicos-pintura") },
   { segmento: "servicos", cliente: "WJ Empilhadeira", servico: "Manutenção de empilhadeiras", ...V("servicos-empilhadeira") },
 
-  { segmento: "comercio", cliente: "Mariana Supermercado", servico: "Ofertas do dia", ...V("comercio-supermercado") },
-  { segmento: "comercio", cliente: "Benatti Frios e Embalagens", servico: "Apresentação da loja", ...V("comercio-frios-embalagens") },
   { segmento: "comercio", cliente: "Drogarias Medclass", servico: "Pedidos pelo WhatsApp", ...V("comercio-medclass") },
 
   { segmento: "imobiliario", cliente: "Allan Alves", servico: "Financiamento imobiliário", ...V("imobiliario-allan-alves") },
@@ -40,6 +39,8 @@ const VIDEOS = [
   { segmento: "aplicativos", cliente: "TOUT", servico: "Lançamento de aplicativo", ...V("app-tout") },
 
   { segmento: "tecnologia", cliente: "Kronic Host", servico: "Hospedagem VPS no Brasil", ...V("tecnologia-kronic-host") },
+
+  { segmento: "educacao", cliente: "Wayfluency", servico: "Curso de inglês online", ...V("educacao-wayfluency") },
 
   { segmento: "fitness", cliente: "Junior Reis", servico: "Consultoria fitness", ...V("fitness-junior-reis") },
 ];
