@@ -40,6 +40,7 @@ const VIDEOS = [
   { segmento: "aplicativos", cliente: "TOUT", servico: "Lançamento de aplicativo", ...V("app-tout") },
 
   { segmento: "tecnologia", cliente: "Kronic Host", servico: "Hospedagem VPS no Brasil", ...V("tecnologia-kronic-host") },
+  { segmento: "tecnologia", cliente: "Nomadix", servico: "eSIM para viagens internacionais", ...V("tecnologia-nomadix") },
 
   { segmento: "educacao", cliente: "Wayfluency", servico: "Curso de inglês online", ...V("educacao-wayfluency") },
 
